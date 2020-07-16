@@ -1,3 +1,1 @@
-<?php
-
-echo "hello word";
+<?php header('Location: controller/page1.php');
