@@ -1,52 +1,118 @@
 <?php
 
+class form{
+    private $monForm = '';
+    private $classeBootstrap = '';
 
-class Form
-{
-private $myform;
-private $codeInit;
-private $codetext;
-private $codesubmit;
-private $endForm;
+    public function __construct($fName,$fMethod,$fAction,$fOnsubmit='',$fLegend=''){
+        $this->monForm='<form name="'.$fName.'" method="'.$fMethod.'" action="'.$fAction.'" onsubmit="'.$fOnsubmit.'">';
+        $this->monForm.='<fieldset><legend>'.$fLegend.'</legend>';
+    }
 
-    public function __construct($fStyle, $faction, $fmethode,$ftitre){
+    public function getForm(){
+        $this->endForm();
+        return $this->monForm;
+    }
 
-        $this->codeInit="<form id=".$fStyle." action=".$faction."method".$fmethode.">";
-        $this->codeInit.="<fieldset><legend>".$ftitre."</legend>";
-        echo $this->codeInit;
+//Fonction qui permet d'ajouter une zone de texte
+    public function addEmail($fLabel,$fName,$fId,$fParam='',$fRequired=false , $fPlaceholder='' , $fValue='')
+    {
+
+        $this->monForm.='<label for="'.$fId.'">'.$fLabel.' </label>';
+        $this->monForm.='<input class= "'.$this->classeBootstrap.'" type="email" name="'.$fName.'" id="'.$fId.'" '.$this->getRequired($fRequired).' placeholder="'.$fPlaceholder.'" value = "'.$fValue.'"/><br/>';
+        $this->monForm.='<br/>';
 
     }
-    public function setFirstName($ftype,$fname){
-        $this->codetext="<p>Votre prénom : <input type=".$ftype." name=".$fname." value='firsname'></p>";
-        echo $this->codetext;
+
+    private function getRequired($fRequired){
+        if($fRequired==true){
+            return 'required';
+        }
+        else{
+            return '';
+        }
+    }
+
+    public function addText($fLabel,$fName,$fId,$fParam='',$fRequired=false , $fPlaceholder='' , $fValue='')
+    {
+
+        $this->monForm.='<label for="'.$fId.'">'.$fLabel.' </label>';
+        $this->monForm.='<input class= "'.$this->classeBootstrap.'" type="text" name="'.$fName.'" id="'.$fId.'" '.$this->getRequired($fRequired).' placeholder="'.$fPlaceholder.'" value = "'.$fValue.'"/><br/>';
+        $this->monForm.='<br/>';
 
     }
-    public function setLastName($ftype,$lname){
-        $this->codetext="<p>Votre Nom : <input type=".$ftype." name=".$lname." value='lastname'></p>";
-        echo $this->codetext;
+
+
+    public function addPassword($fLabel,$fName,$fId,$fParam='',$fRequired=false , $fPlaceholder='' , $fValue='')
+    {
+        $this->monForm.='<label for="'.$fId.'">'.$fLabel.' </label>';
+        $this->monForm.='<input class= "'.$this->classeBootstrap.'" type="password" name="'.$fName.'" id="'.$fId.'" '.$this->getRequired($fRequired).' placeholder="'.$fPlaceholder.'" value = "'.$fValue.'"/><br/>';
+        $this->monForm.='<br/>';
+    }
+
+//Fonction supplémentaire qui permet d'ajouter du texte
+    public function addText2($fLabel,$fParam)
+    {
+
+        $this->monForm.= $fLabel;
+        $this->monForm.='<br/>';
 
     }
-    public function setEmail($ftype,$femail){
-        $this->codetext="<p>Votre Email : <input type=".$ftype." name=".$femail." value='toto@server.xx'></p>";
-        echo $this->codetext;
+
+//Fonction qui permet d'ajouter un bouton radio
+    public function addRadio($fLabel,$fName,$fId,$fParam)
+    {
+
+        $this->monForm.='<input class= "'.$this->classeBootstrap.'" type="radio" name="'.$fName.'" value="'.$fId.'" id="'.$fId.'"/>';
+        $this->monForm.='<label for="'.$pId.'">'.$fLabel.' </label><br/>';
 
     }
-    public function setPassword($ftype,$fpassword){
-        $this->codetext="<p>Votre Password : <input type=".$ftype." name=".$fpassword." value='password'></p>";
-        echo $this->codetext;
+
+//Fonction qui permet d'ajouter une case a cocher
+    public function addCheckbox($fLabel,$fName,$fParam)
+    {
+
+        $this->monForm.='<input class= "'.$this->classeBootstrap.'" type="checkbox" name="'.$fName.'" value="'.$fName.'" id="'.$fName.'" />';
+        $this->monForm.='<label for="'.$fName.'">'.$fLabel.'</label><br/>';
 
     }
-    public function setSubmit($fsubmit="submit",$fvalue="ok"){
-        $this->endForm="<p><input type=".$fsubmit." value=".$fvalue."></p>";
-        $this->endForm.="</field>";
-        $this->endForm.="</form>";
-        echo $this->endForm;
+
+    public function addHidden($pName,$fId,$fValue='')
+    {
+
+        $this->monForm.='<input type="hidden" name="'.$fName.'" id="'.$fId.'"  value = "'.$fValue.'"/><br/>';
     }
+
+
+//Fonction qui permet d'ajouter un bouton d'envoi
+    public function addSubmit($fName,$fValue,$fParam=null)
+    {
+
+        $this->monForm.='<br/><input class= "'.$this->classeBootstrap.'" type="submit" name="'.$fName.'" value="'.$fValue.'"/>';
+
+    }
+
+//Fonction qui permet d'ajouter un bouton reset
+    public function addReset($fName,$fValue,$fParam)
+    {
+
+        $this->monForm.='  <input class= "'.$this->classeBootstrap.'" type="reset" name="'.$fName.'" value="'.$fValue.'"/>';
+
+    }
+
+//Fonction qui permet d'ajouter un bouton simple
+    public function addButton($fName,$fValue,$fRetour,$fParam)
+    {
+
+        $this->monForm.=' <input class= "'.$this->classeBootstrap.'" type="button" name="'.$fName.'" value="'.$fValue.'" onclick="'.$fRetour.'" />';
+
+    }
+
+//Fonction qui permet de fermer le formulaire
+    private function endForm()
+    {
+        $this->monForm.='</fieldset></form>';
+
+    }
+
 }
-
-//$formulaire=new Form("toto", "post");
-//echo $formulaire->setFirstName("text","firstname");
-//echo $formulaire->setLastName("text","lastname");
-//echo $formulaire->setSubmit();
-
-

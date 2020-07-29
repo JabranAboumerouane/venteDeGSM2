@@ -1,9 +1,14 @@
+<?php
+if(isset($_SESSION['email_S'])){
+}
+?>
+
 
 <div class="container-fluid">
     <div class="row">
         <footer class="col-lg-12">
             Fait par Jabran
-            <a href="#haut" >haut de page</a>
+            <a href="#" >haut de page</a>
         </footer>
     </div>
 </div>

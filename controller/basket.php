@@ -1,7 +1,7 @@
 <?php
 $Montitle= 'Panier';
 
-include 'Form.php';
+require_once '../controller/core.php' ;
 require '../view/header.php';
-require '../view/panier.php';
+require '../view/basket.php';
 require '../view/footer.php';

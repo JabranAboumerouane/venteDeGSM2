@@ -1,39 +1,75 @@
 <?php
+class Model{
+    protected $table;
+    protected $connection;
+    Public $id ;
+    Public $dump_sql ;
+    Public $result ;
 
+    function __construct() {
 
-class Model
-{
-    protected $connexion;
-
-    public function __construct()
-    {
-        $servername = 'mysql:host=localhost;dbname=ventes_gsm';
-        $username = "root";
-        $password = "";
-        $options = array(
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8", PDO::ERRMODE_EXCEPTION
-        );
-
-        //On établit la connexion
         try {
-            $this->connexion = new PDO($servername, $username, $password, $options);
-        } catch (PDOException $e) {
-            echo 'Connexion échouée:' . $e->getMessage();
+
+            $dns = 'mysql:host=127.0.0.1;dbname=ventes_gsm';
+            $mUser = "root";
+            $mPassword = '';
+
+            // Options de connection
+            $options = array(
+                PDO::MYSQL_ATTR_INIT_COMMAND    => "SET NAMES utf8"
+            );
+
+            // Initialisation de la connection
+            $this->connection = new PDO( $dns, $mUser, $mPassword, $options );
+        } catch ( Exception $e ) {
+            echo "Connection à MySQL impossible : ", $e->getMessage();
+            die();
         }
     }
 
+    public function read($fields=null,$where=''){
+        // si mon champs est null alors mon paramètre $fields devient *
+        if($fields==null){
+            $fields = '*';
+        }
+        // si je n'ai rien mis dans mon objet-> id alors on execute cette partie de code
+        if ($this->id== null){
+            $sql= 'SELECT '.$fields.' from '.$this->table ;
+            if ($where!= ''){
+                $sql.=' where '.$where;
+            }
+
+        }
+        else{
+            // j'écris une requête qui va lire dans ma table les champs ou ma primary key = la valeur de objet->id
+            $sql= 'SELECT '.$fields.' from '.$this->table .'  where '.$this->PK." = '" .$this->id."'" ;
+        }
+
+
+        try {
+            var_dump($sql);
+            // On envois la requète
+            if($this->dump_sql==true){
+                echo $sql;
+            }
+            // on execute la requête
+            $select = $this->connection->query($sql);
+
+            // On indique que nous utiliserons les résultats en tant qu'objet
+            $select->setFetchMode(PDO::FETCH_OBJ);
+            $this->result = new stdClass();
+            $this->result = $select->fetchall();
+
+        } catch ( Exception $e ) {
+            echo 'Une erreur est survenue lors de la récupération des données';
+        }
+
+
+    }
+    static function load($name){
+        require ('../Model/'.$name.'.php');
+        return new $name();
+    }
+
+
 }
-
-
-    //requête préparer
-//$ins = $pdo->prepare("insert into utilisateurs (nom,prenom,login,pass) values(:nom,:prenom,:login,:pass)");
-//$ins->execute(array(
- //   ":prenom"=>"Albert",
- //   ":pass"=>md5("2020"),
- //   ":nom"=>"Einstein",
- //   ":login"=>"a.einstein"
-//));
-    //preparer puis executer la requête
-//$ins = $pdo->prepare("select * from utilisateurs order by id");
-//$ins->setFetchMode(PDO::FETCH_ASSOC);
-//$ins->execute();
