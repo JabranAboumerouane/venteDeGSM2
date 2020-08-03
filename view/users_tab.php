@@ -1,10 +1,11 @@
 <?php
-$out  = "";
+var_dump($users->result);
+/*$out  = "";
 
 $titre= '<tr>';
 $titre_trt= false;
 
-foreach($users->data as $key => $element){
+foreach($users->result as $key => $element){
     $out .= '<tr id ="'.$element->user.'"  >';
     foreach($element as $subkey => $subelement){
         if($titre_trt==false){
@@ -24,4 +25,7 @@ $out = '<table id ="users" >'.$titre.$out.'</table>';
 
 echo $out;
 
-?>
+?>*/
+foreach ($users->resut as $row=>$key){
+    echo $key->email;
+}

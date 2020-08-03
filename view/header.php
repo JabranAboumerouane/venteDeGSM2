@@ -40,7 +40,7 @@
                      <a class="nav-link" href="../controller/entrainement.php">entrainement</a>
                     </li>
                 <?php
-                if(isset($_SESSION['email_SOK'])){
+                if(isset($_SESSION['email_SOK']) && $_SESSION['role_S']==1){
                 echo '<li class="nav-item active">';
                     echo '<a class="nav-link" href="../controller/welcome.php">Home</a>';
                 echo '</li>';
@@ -54,24 +54,35 @@
                 echo '<li class="nav-item">';
                   echo '  <a class="nav-link" href="../controller/basket.php">Panier</a>';
                 echo '</li>';
-                    }?>
+                    }elseif (isset($_SESSION['email_SOK']) && $_SESSION['role_S']==2){
+                    echo '<li class="nav-item active">';
+                    echo '<a class="nav-link" href="../controller/welcome.php">Home</a>';
+                    echo '</li>';
+                    echo '<li class="nav-item">';
+                    echo ' <a class="nav-link" href="../controller/gsm.php">GSM</a>';
+                    echo '</li>';
+                    echo '<li class="nav-item">';
+                    echo '  <a class="nav-link" href="../controller/basket.php">Panier</a>';
+                    echo '</li>';
+                }?>
             </ul>
         </div>
         <?php
         if(isset($_SESSION['email_S']) && $_SESSION['email_SOK'] == 1 && isset($_SESSION['email_S'])) {
+            $carToDelimite = '@';
+            $newSessionName = substr($_SESSION['email_S'], 0, strpos($_SESSION['email_S'],$carToDelimite));
             echo'<div class="navbar-collapse collapse w-100 order-3 dual-collapse2">';
-            echo'<ul class="navbar-nav ml-auto menuadroite">
-                    <li class="whiteUsers">Bonjour ' . $_SESSION['email_S'] .'</li>
+            echo '<ul class="navbar-nav ml-auto menuadroite">
+                    <li class="Bonjour">Bonjour ' . $newSessionName .'</li>
+                    <il>&nbsp;</il>
                     <li>
-                    <form class= "padding10" action="../Controller/session_destroy.php" method="post" accept-charset="utf-8">
+                    <form class= "padding10" action="../controller/session_destroy.php" method="post" accept-charset="utf-8">
 					<input type="submit" class="btn btn-primary" role="button" name="" value="Se déconnecter">
 				</form></li></ul>';
             echo '</div>';
         }else{
             echo '<ul class="navbar-nav ml-auto menuadroite">';
-            echo '  <li><a href="../controller/inscription.php" class="btn btn-primary" role="button">Inscription</a></li>';
-            echo '<il>&nbsp;</il>';
-            echo '  <li><a href="../controller/connexion.php" class="btn btn-primary" role="button">connexion</a></li>';
+            echo '  <li><a href="../controller/sign.php" class="btn btn-primary" role="button">Sign!</a></li>';
             echo '</ul>';
         }
         ?>

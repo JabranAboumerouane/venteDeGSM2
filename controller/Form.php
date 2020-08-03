@@ -2,7 +2,7 @@
 
 class form{
     private $monForm = '';
-    private $classeBootstrap = '';
+    private $classeBootstrap = 'form-group';
 
     public function __construct($fName,$fMethod,$fAction,$fOnsubmit='',$fLegend=''){
         $this->monForm='<form name="'.$fName.'" method="'.$fMethod.'" action="'.$fAction.'" onsubmit="'.$fOnsubmit.'">';

@@ -5,6 +5,7 @@ class Model{
     Public $id ;
     Public $dump_sql ;
     Public $result ;
+    public $ajout ;
 
     function __construct() {
 
