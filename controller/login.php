@@ -2,7 +2,7 @@
 
 
 
-require '../controller/core.php' ;
+require 'core.php' ;
 
 $Montitle= 'Login';
 
@@ -12,13 +12,10 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
     $password = $_POST['password'];
     //$pass = password_hash($password,PASSWORD_BCRYPT);
     $Users = Model::load('Users');
-    $Users->read(null, ' email ="' . $email . '"');//donne lieu à la requete select * from users where email=$username
-    //var_dump($Users);
-    //var_dump($Users->result[0]->password);
-    //var_dump($Users->result[0]->roles_id_role);
+    $Users->read(null, ' email ="' . $email . '"');//donne lieu à la requete select * from users where email=$email
+
 
     if ((count($Users->result)) == 1 && $Users->result[0]->password == $password) {
-        //if(password_verify($password,$Users->result[0]->password)){
         $_SESSION['email_S'] = $Users->result[0]->email;
         $_SESSION['role_S']= $Users->result[0]->roles_id_role;
         $_SESSION['email_SOK'] = 1;

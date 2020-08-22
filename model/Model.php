@@ -5,15 +5,15 @@ class Model{
     Public $id ;
     Public $dump_sql ;
     Public $result ;
-    public $ajout ;
+    public $ajoutok ;
 
     function __construct() {
 
         try {
 
-            $dns = 'mysql:host=127.0.0.1;dbname=ventes_gsm';
+            $dns = 'mysql:host=127.0.0.1;dbname=GSM_sale';
             $mUser = "root";
-            $mPassword = '';
+            $mPassword = 'root';
 
             // Options de connection
             $options = array(
@@ -48,7 +48,7 @@ class Model{
 
 
         try {
-            var_dump($sql);
+            //var_dump($sql);
             // On envois la requète
             if($this->dump_sql==true){
                 echo $sql;

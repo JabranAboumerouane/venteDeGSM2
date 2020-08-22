@@ -1,6 +1,6 @@
 <?php
 
-require '../controller/core.php' ;
+require 'core.php' ;
 
 $Montitle= 'Welcome';
 

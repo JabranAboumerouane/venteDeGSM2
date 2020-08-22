@@ -1,52 +1,42 @@
+
 var  clicActive = function(){
     if($(this).text()=="0"){
         $destination='user_active.php';
     }else{
-        $destination='user_desactive.php';
+        $destination='user_disabled.php';
     };
     var elem = $( this );
-    $.post( $destination, { code : $(this).parent().attr('id_user') } )
-        .done(function( data ) {
+    $.post( $destination, { active : $(this).parent().attr('id') } )
+        .done(function( result ) {
                 elem.empty();
-                elem.html(data);
+                elem.html(result);
             }
         );
 };
 
-var  clicKeyUp = function(){
+//recherche
+var clicKeyUp = function() {
 
-    $destination='find_user.php';
+    $destination = 'users_tab.php';
 
-    var elem = $( this );
+    var elem = $(this);
 
-    $.post( $destination, { NOM : elem.val()} )
-        .done(function( data ) {
-                $('#users').replaceWith(data);
-            }
-        );
+    $.post( $destination, { last_name: elem.val()})
+        .done(function(result) {
+            $('#users').replaceWith(result);
+        });
 };
-
 
 var  clicModif = function(){
     var elem = $( this );
     $destination='users_fic.php';
-    $.post( $destination, { user : $(this).parent().attr('id_user') })
-        .done(function( data ) {
-            displayModal(data);
+    $.post( $destination, { employe : $(this).parent().attr('id') })
+        .done(function( result ) {
+            displayModal(result);
         });
 };
 
-var  clicNew = function(event){
-    event.preventDefault();
-    var elem = $( this );
-    $destination='users_fic.php';
-    $.post( $destination)
-        .done(function( data ) {
-            displayModal(data);
-        });
-};
-
-var displayModal= function(data){
+var displayModal= function(result){
     $("#myModal").remove();
     $VarTmp = '<div class="modal fade" id="myModal" role="dialog">'+
         '<div class="modal-dialog modal-sm">'+
@@ -63,22 +53,23 @@ var displayModal= function(data){
         '</div>';
 
     $('body').append($VarTmp);
-    $('.modal-body').html(data);
+    $('.modal-body').html(result);
     $("#myModal").modal();
     $("#myModal form").submit(function( event ) {
         event.preventDefault();
-        $.post('users_fic.php',$(this).serialize()).done(function(data) {});
+        $.post('users_fic.php',$(this).serialize()).done(function(result) {});
         $("#myModal").modal('toggle');
         $("form #PRENOM").trigger('keyup');
 
     });
 }
 
-$(function(){
-    $(document).on('click','#users #actif',clicActive);
-    $(document).on('click','#users #modifier',clicModif);
-    $(document).on('change','form[name="FormUser_tab"] #PRENOM',clicKeyUp);
-    $(document).on('keyup','form[name="FormUser_tab"] #PRENOM',clicKeyUp);
-    $('form[name="NewUser_tab"]').submit(function( event ) {clicNew(event)});
-});
 
+$(function() {
+    $(document).on('click', '#users #actif', clicActive);
+    $(document).on('click', '#users #modifier', clicModif);
+    $(document).on('change', 'form[name="form_find_addUser"] #active', clicKeyUp); //modal
+    $(document).on('keyup', 'form[name="form_find_addUser"] #active', clicKeyUp); //modal
+    $('form[name="form_find_addUser"]').submit(function (event) {clicNew(event)});
+
+    };

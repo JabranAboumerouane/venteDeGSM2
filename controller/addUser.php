@@ -1,29 +1,35 @@
 <?php
-require 'core.php';
+session_start();
+require '../model/Model.php';
 
-        $Users = Model::load('Users');
-        $Users->read(null,' email ="'.$_POST['email'].'"');
+$ajoutok=true;
 
-    if((count($Users->result)) == 1 && $Users->result[0]->email == $_POST['email'])
+if($_POST['password']!=$_POST['repeatPassword'])
     {
-            $ajout=false;
-        }else{
-            $ajout=true;
-    }
-var_dump($ajout);
-    if($ajout==true && $_POST['password']==$_POST['repeatPassword']){
-
-        $last_name=$_POST['last_name'];
-        $first_name=$_POST['first_name'];
-        $address=$_POST['address'];
-        $email=$_POST['email'];
-        $password=$_POST['password'];
-        $Users->addUser($first_name,$last_name,$address,$email,$password);
-        $_SESSION['email_S']=$email;
-        $_SESSION['email_SOK']=1;
-        $_SESSION['role_S']=2;
-
-        header('Location: welcome.php');
-    }else{
+        $_SESSION['ERROR1']='<div id="error" class="alert alert-danger">Les mots de passes ne sont pas identiques</div>';
         header('Location: sign.php');
+
+    }else {
+    $Users = Model::load('Users');
+    $Users->read(null, ' email ="' . $_POST['email'] . '"');
+        if ((count($Users->result)) == 1 && $Users->result[0]->email == $_POST['email']) {
+            $_SESSION['ERROR'] = '<div id="error" class="alert alert-danger">Cette adresse email est déjà utilisé</div>';
+            header('Location: sign.php');
+            return $ajoutok;
+        } else {
+            $ajoutok = false;
+        }
+    if ($ajoutok == false) {
+        $first_name = $_POST['first_name'];
+        $last_name = $_POST['last_name'];
+        $address = $_POST['address'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $_SESSION['email_S'] = $email;
+        $_SESSION['email_SOK'] = 1;
+        $_SESSION['role_S'] = 2;
+        $Users->addUser($first_name, $last_name, $address, $email, $password);
+        header('Location: welcome.php');
+        return $ajoutok=true;
+    }
 }

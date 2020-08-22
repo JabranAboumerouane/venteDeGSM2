@@ -28,7 +28,7 @@
     </header>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="mx-auto order-0">
-            <a class="navbar-brand mx-auto" href="../venteDeGSM2/index.php">
+            <a class="navbar-brand mx-auto" href="../controller/welcome.php">
                 <img src="../view/image/logonav2.jpg" alt="logo" style="width:30px;"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
                 <span class="navbar-toggler-icon"></span>
@@ -36,9 +36,6 @@
         </div>
         <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                     <a class="nav-link" href="../controller/entrainement.php">entrainement</a>
-                    </li>
                 <?php
                 if(isset($_SESSION['email_SOK']) && $_SESSION['role_S']==1){
                 echo '<li class="nav-item active">';
